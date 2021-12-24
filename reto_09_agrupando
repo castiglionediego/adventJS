@@ -1,0 +1,21 @@
+function groupBy(collection, it) {
+  
+  const obj = {};
+  
+  if (Object.keys(collection).length === 0) return obj
+  
+  for (let value of collection){
+    const prop = typeof it === 'function' ? it(value) : value[it];
+    prop in obj ? obj[prop].push(value) : (obj[prop] = [value])
+  }
+  
+  return obj
+}
+
+groupBy([6.1, 4.2, 6.3], Math.floor) // { 6: [6.1, 6.3], 4: [4.2] }
+groupBy(['one', 'two', 'three'], 'length') // { 3: ['one', 'two'], 5: ['three'] }
+groupBy([{age: 23}, {age: 24}], 'age') // { 23: [{age: 23}], 24: [{age: 24}] }
+groupBy(
+  [1397639141184, 1363223700000],
+  timestamp => new Date(timestamp).getFullYear()
+)
